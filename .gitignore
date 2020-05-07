@@ -1,0 +1,12 @@
+# Editor de texto
+.vscode
+
+# Variables de entorno
+.env
+
+# Archivos de npm
+node_modules/
+package-lock.json
+
+# Compilado
+dist/
