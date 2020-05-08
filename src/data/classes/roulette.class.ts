@@ -35,8 +35,6 @@ class Roulette extends Model implements IRoulette {
   }
 
   async openBets(): Promise<void> {
-    if (this.state !== 'new')
-      throw { status: 400, message: 'Roulette bets state can not be changed to open' }
     this.state = 'open bets'
     await redisUpdate(`${Roulette.redisSuffix}:${this.id}`, this)
   }
