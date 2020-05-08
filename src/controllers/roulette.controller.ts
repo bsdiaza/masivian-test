@@ -13,6 +13,28 @@ export async function createRoulette(req: Request, res: Response, next: NextFunc
   }
 }
 
+export async function findRoulette(req: Request, res: Response, next: NextFunction): Promise<Response> {
+  try {
+    const { id } = req.params
+    const roulette = await Roulette.findByid(id)
+    const bets = await Bet.findByRoulette(id)
+    return res.status(200).json({ roulette, bets})
+  } catch(err) {
+    next(err)
+    return res
+  }
+}
+
+export async function listRoulettes(req: Request, res: Response, next: NextFunction): Promise<Response> {
+  try {
+    const roulettes = await Roulette.find()
+    return res.status(200).json(roulettes)
+  } catch(err) {
+    next(err)
+    return res
+  }
+}
+
 export async function openRouletteBets(req: Request, res: Response, next: NextFunction): Promise<Response> {
   try {
     const { id } = req.params 
@@ -28,10 +50,23 @@ export async function openRouletteBets(req: Request, res: Response, next: NextFu
 export async function betOnRoulette(req: Request, res: Response, next: NextFunction): Promise<Response> {
   try {
     const { userid } = req.headers as { userid : string }
-    const { rouletteId, quantity, color, number } = req.body 
+    const { rouletteId, quantity, option } = req.body 
     await searchRoulete(rouletteId)
-    const bet = await Bet.create({ userId: userid ,rouletteId, quantity, color, number })
+    const bet = await Bet.create({ userId: userid ,rouletteId, quantity, option })
     return res.status(200).json(bet)
+  } catch(err) {
+    next(err)
+    return res
+  }
+}
+
+export async function closeRouletteBets(req: Request, res: Response, next: NextFunction): Promise<Response> {
+  try {
+    const { id } = req.params 
+    const roulette = await searchRoulete(id)
+    await roulette.playRoulette()
+    const bets = await Bet.findByRoulette(id)
+    return res.status(200).json({ roulette, bets })
   } catch(err) {
     next(err)
     return res

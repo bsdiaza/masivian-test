@@ -1,6 +1,7 @@
 import redis, { RedisClient } from 'redis'
-import { redisFind, redisRegister, generateId } from '../database.redis';
+import { redisFind, redisRegister, generateId, redisRemove } from '../database.redis';
 import Model from './model.class'
+import { processBetOption } from '../../services/roulette.service';
 
 class Bet extends Model implements IBet {
 
@@ -23,16 +24,21 @@ class Bet extends Model implements IBet {
     this.number = number
   }
 
-  static async create({ userId, rouletteId, quantity, color, number }: IBet) {
+  static async create({ userId, rouletteId, quantity, option }: any) {
     const id = await generateId(Bet.redisSuffix)
+    const { color, number } = processBetOption(option)
     const bet = new Bet({id, userId, rouletteId, quantity, color, number})
-    console.log(`${this.redisSuffix}:${rouletteId}:${id}`, bet)
     await redisRegister(`${this.redisSuffix}:${rouletteId}:${id}`, bet)
     return bet
   }
 
   static async findByRoulette(rouletteId: string): Promise<Array<Bet>> {
     const bets = await redisFind(`${this.redisSuffix}:${rouletteId}`)
+    return bets
+  }
+
+  static async deleteByRoulette(rouletteId: string): Promise<Array<Bet>> {
+    const bets = await redisRemove(`${this.redisSuffix}:${rouletteId}`)
     return bets
   }
 

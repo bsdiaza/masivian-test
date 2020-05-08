@@ -1,4 +1,10 @@
 interface IRoulette {
-  id: Number
+  id: string
   state: String
+  result?: IRouletteResult
+}
+
+interface IRouletteResult {
+  color: string
+  number?: Number
 }

@@ -9,6 +9,10 @@ const redisKeys = promisify(redisCli.keys).bind(redisCli)
 const redisSet = promisify(redisCli.set).bind(redisCli)
 const redisWrite = (key: string, object: Model) => { redisCli.hmset(key, Object.assign(object)) }
 
+export async function redisRegister(key: string, object: Model) {
+  return redisWrite(key, Object.assign(object))
+}
+
 export async function redisFindOne(key: string): Promise<any> {
   return await redisHGetAll(key)
 }
@@ -18,15 +22,17 @@ export async function redisFind(suffix: string): Promise<Array<any>> {
   return await Promise.all(keys.map(async key => await redisFindOne(key)))
 }
 
-export async function redisRegister(key: string, object: Model) {
-  return redisWrite(key, Object.assign(object))
-}
-
 export async function redisUpdate(key: string, object: Model) {
   let registry = await redisFindOne(key)
   registry = { ...registry, ...object }
-  redisWrite(key, Object.assign(object))
+  console.log(object)
+  redisWrite(key, Object.assign(registry))
   return registry
+}
+
+export async function redisRemove(suffix: string): Promise<Array<any>> {
+  const keys = await redisKeys(`${suffix}:*`)
+  return await Promise.all(keys.map(async key => await redisCli.del(key)))
 }
 
 export async function generateId(suffix: string): Promise<any> {
