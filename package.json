@@ -4,6 +4,7 @@
   "description": "Prueba de conocimientos y codigo limpio.",
   "main": "dist/server.js",
   "scripts": {
+    "start": "node ./dist/server.js",
     "build": "tsc",
     "watch": "tsc -w",
     "dev": "concurrently \"npm run watch\" \"nodemon dist/index\" ",
