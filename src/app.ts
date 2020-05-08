@@ -3,8 +3,8 @@ import bodyParser from 'body-parser'
 import createError from 'http-errors'
 import express, { Application } from 'express'
 import morgan from 'morgan'
+import casinoRouter from './router/casino.router'
 
-//la constante app se inicia dentro de la propiedad de una clase
 export default class App {
 
   public app: Application
@@ -31,6 +31,7 @@ export default class App {
   }
 
   setRoutes() {
+    this.app.use('/api/casino', casinoRouter)
     this.app.use(function (req, res, next) {
       next(createError(404))
     })
