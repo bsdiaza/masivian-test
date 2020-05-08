@@ -9,5 +9,5 @@ export function handleError(err: any, req: Request, res: Response, next: NextFun
     payload = "Internal server error"
     res.status(500)
   }
-  res.end()
+  res.json(payload).end()
 }

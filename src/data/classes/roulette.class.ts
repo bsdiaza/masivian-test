@@ -1,5 +1,5 @@
 import redis, { RedisClient } from 'redis'
-import { redisFind, redisFindOne, redisRegister, generateId } from '../database.redis';
+import { redisFind, redisFindOne, redisRegister, generateId, redisUpdate } from '../database.redis';
 import Model from './model.class'
 
 let rouletteRedis: RedisClient = redis.createClient()
@@ -9,21 +9,22 @@ class Roulette extends Model implements IRoulette {
   public static redisSuffix: string = 'bryamMasivian:roulette'
 
   public id: Number
-  public state: String
+  public state: string
 
-  private constructor(id: Number) {
+  constructor(id: Number, state?: string ) {
     super()
     this.id = id
-    this.state = "new"
+    this.state = state || "new"
   }
 
   static async create() {
     const id = await generateId(Roulette.redisSuffix)
     const roulette = new Roulette(id)
+    await redisRegister(`${this.redisSuffix}:${id}`, roulette)
     return roulette
   }
 
-  static async findByid(id: Number): Promise<Roulette> {
+  static async findByid(id: string): Promise<Roulette> {
     const roulette: any = await redisFindOne(`${this.redisSuffix}:${id}`)
     return roulette
   }
@@ -33,13 +34,11 @@ class Roulette extends Model implements IRoulette {
     return roulettes
   }
 
-  static async openRouletteBets(id: Number): Promise<any> {
-    const roulete = await this.findByid(id)
-    if(!roulete)
-      throw { status: 404, message: 'Roulette not found' }
-    if(roulete.state)
-      throw { status: 400, message: 'Roulette can not open bets' }
-    
+  async openBets(): Promise<void> {
+    if (this.state !== 'new')
+      throw { status: 400, message: 'Roulette bets state can not be changed to open' }
+    this.state = 'open bets'
+    await redisUpdate(`${Roulette.redisSuffix}:${this.id}`, this)
   }
 
 }

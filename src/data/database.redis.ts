@@ -18,8 +18,8 @@ export async function redisFind(suffix: string): Promise<Array<any>> {
   return await Promise.all(keys.map(async key => await redisFindOne(key)))
 }
 
-export async function redisRegister(suffix: string, object: Model) {
-  return redisWrite(`metadata:${suffix}:incremental`, Object.assign(object))
+export async function redisRegister(key: string, object: Model) {
+  return redisWrite(key, Object.assign(object))
 }
 
 export async function redisUpdate(key: string, object: Model) {

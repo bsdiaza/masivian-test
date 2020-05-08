@@ -4,6 +4,7 @@ import createError from 'http-errors'
 import express, { Application } from 'express'
 import morgan from 'morgan'
 import casinoRouter from './router/casino.router'
+import { handleError } from './middlewares/errorHandler.middleware'
 
 export default class App {
 
@@ -35,6 +36,7 @@ export default class App {
     this.app.use(function (req, res, next) {
       next(createError(404))
     })
+    this.app.use(handleError)
   }
 
   async listen() {
