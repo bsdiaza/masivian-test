@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import Roulette from '../data/classes/roulette.class'
-import { searchRoulette } from '../services/roulette.service'
+import { searchRoulette, validateRouleteState } from '../services/roulette.service'
 import Bet from '../data/classes/bet.class'
 
 export async function createRoulette(req: Request, res: Response, next: NextFunction): Promise<Response> {
@@ -51,7 +51,7 @@ export async function betOnRoulette(req: Request, res: Response, next: NextFunct
   try {
     const { userid } = req.headers as { userid : string }
     const { rouletteId, quantity, option } = req.body 
-    await searchRoulette(rouletteId)
+    await validateRouleteState(rouletteId)
     const bet = await Bet.create({ userId: userid ,rouletteId, quantity, option })
     return res.status(200).json(bet)
   } catch(err) {

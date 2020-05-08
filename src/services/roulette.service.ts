@@ -23,6 +23,13 @@ export function processBetOption(option: string): IRouletteResult {
   return { color, number }
 }
 
+
+export async function validateRouleteState(rouletteId: string): Promise<void> {
+  const roulette = await searchRoulette(rouletteId)
+  if(roulette.state !== 'roulette open')
+    throw { status: 400, message: 'Roulette is not available to bet' }
+}
+
 export function generateResult(){
   const number = Math.ceil(Math.random() * 36)
   let color
