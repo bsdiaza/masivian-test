@@ -1,4 +1,3 @@
-require('dotenv').config()
 import bodyParser from 'body-parser'
 import createError from 'http-errors'
 import express, { Application } from 'express'

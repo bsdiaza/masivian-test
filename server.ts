@@ -1,7 +1,11 @@
-require('dotenv').config()
+import cluster from 'cluster'
+import { initLoadBalancer, createChildProcess } from './scalability'
 
-import App from './src/app'
+function scaleApp(){
+  if (cluster.isMaster) 
+    initLoadBalancer()
+  else 
+    createChildProcess()
+}
 
-const app = new App()
-
-app.listen()
+scaleApp()
