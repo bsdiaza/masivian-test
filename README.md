@@ -23,6 +23,12 @@ git clone https://github.com/bsdiaza/masivian-test.git
 
 Para la ejecución y visualización del proyecto se debe abrir la carpeta previamente descargada con un editor de Código (Se recomienda Visual Studio Code).
 
+En la raiz del proyecto debemos ejecutar el para instalar las dependencias necesarias para la ejecución del proyecto.
+
+```bash
+$ npm install
+```
+
 En la raiz del proyecto debemos ejecutar el comando de compilacion de codigo.
 
 ```bash
