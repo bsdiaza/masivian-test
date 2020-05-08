@@ -25,7 +25,6 @@ export async function redisFind(suffix: string): Promise<Array<any>> {
 export async function redisUpdate(key: string, object: Model) {
   let registry = await redisFindOne(key)
   registry = { ...registry, ...object }
-  console.log(object)
   redisWrite(key, Object.assign(registry))
   return registry
 }
@@ -38,8 +37,9 @@ export async function redisRemove(suffix: string): Promise<Array<any>> {
 export async function generateId(suffix: string): Promise<any> {
   const key = `metadata:${suffix}:incremental`
   let id = await redisGet(key)
-  if (id == 'NaN')
+  if (id == 'NaN' || !id){
     id = '0'
+  }
   await redisSet(key, `${parseInt(id) + 1}`)
   return parseInt(id)
 }

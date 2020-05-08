@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "45f71f04-00c1-4267-a46e-48b1c0787f0a",
+		"name": "Masivian Bryam Test",
+		"description": "Postman collection para probar los endpoint solicitados en la prueba de desarrollo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create roulette",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/casino/roulette",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"casino",
+						"roulette"
+					]
+				},
+				"description": "Endpont de creacion de una ruleta"
+			},
+			"response": []
+		},
+		{
+			"name": "Open roulette bets",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/casino/roulette/open-bets/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"casino",
+						"roulette",
+						"open-bets",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "33"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make bet on roulette",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userId",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n\t\"rouletteId\": \"33\",\n\t\"quantity\": 3000, \n\t\"option\": \"36\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/casino/roulette/bet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"casino",
+						"roulette",
+						"bet"
+					]
+				},
+				"description": "Endpoint de apuesta en una ruleta"
+			},
+			"response": []
+		},
+		{
+			"name": "Close roulette bets",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/casino/roulette/close-bets/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"casino",
+						"roulette",
+						"close-bets",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List roulettes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/casino/roulette",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"casino",
+						"roulette"
+					]
+				},
+				"description": "Endpoint para listar todas las ruletas"
+			},
+			"response": []
+		},
+		{
+			"name": "Get roulette info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/casino/roulette/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"casino",
+						"roulette",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				},
+				"description": "Endpoint para obtener toda la informacion de una ruleta"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

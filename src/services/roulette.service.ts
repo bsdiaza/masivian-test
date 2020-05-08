@@ -1,6 +1,6 @@
 import Roulette from "../data/classes/roulette.class"
 
-export async function searchRoulete(id: string): Promise<Roulette> {
+export async function searchRoulette(id: string): Promise<Roulette> {
   const roulette = await Roulette.findByid(id)
   if(!roulette)
     throw { status: 404, message: 'Roulette not found' }
@@ -34,7 +34,7 @@ export function generateResult(){
 }
 
 export function mapResult(roulette: Roulette) {
-  if(roulette.result)
+  if(roulette && roulette.result)
     roulette.result = JSON.parse(roulette.result as any)
   return roulette
 }

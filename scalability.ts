@@ -17,7 +17,7 @@ export function initLoadBalancer(){
   });
 }
 
-export function createChildProcess(){
-  http.createServer(app.app).listen(3000);
+export function createChildProcess(port: number){
+  http.createServer(app.app).listen(port);
   console.log(`Worker ${process.pid} started`);
 }
